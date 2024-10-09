@@ -13,16 +13,16 @@ The tools and technologies are just going to be programming languages as there i
 ## Resources
 This project will not require many resources besides what was outlined in the tools and technologies section.
 ## Initial Backlog
-- Research Blackbaud/dalton tasks and how that could be implemented
-- Research other event planners
-- Homepage design, Sketch UI
-- Research Brain js to implement machine learning
-- Brain.js add on
-- Create a drag and drop interface using Brain js
-- Code boilerplate/UI
-- Test out relevant javascript functions that I can use
-- Initital research on machine learning for predictive use
-- Make a machine learning algorithm to suggest where tasks should go
-- Create dropdowns that allow users to fill out different attributes for their tasks in the planner
-- Generate my own list of recommended lengths of events and where they fit into a schedule
-- Append to algorithm
+- Research other event planners for relevant info
+- Install brain.js and npm/yarn if necessary
+- Research HtML structure/functions for making a calendar, task lists, etc.
+- Design the homepage, sketch UI
+- Add CSS to the UI
+- Make/design a planner.js file for customizable planning
+- Create Brain.js neural network model
+- Research predictive functions of Brain.js, consider limitations
+- Code an input form where tasks can be added/removed
+- Set up data collection/train neural network based on data
+- Use trained model to predict task durations
+- Add filtering/customizable based on subjects
+- Tweak predictive algorithm based on personal experience/conduct a survey
