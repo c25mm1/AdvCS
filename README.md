@@ -13,16 +13,16 @@ The tools and technologies are just going to be programming languages as there i
 ## Resources
 This project will not require many resources besides what was outlined in the tools and technologies section.
 ## Initial Backlog
-- Research other event planners for relevant info
-- Install brain.js and npm/yarn if necessary
-- Research HtML structure/functions for making a calendar, task lists, etc.
-- Design the homepage, sketch UI
-- Add CSS to the UI
-- Make/design a planner.js file for customizable planning
-- Create Brain.js neural network model
-- Research predictive functions of Brain.js, consider limitations
-- Code an input form where tasks can be added/removed
-- Set up data collection/train neural network based on data
-- Use trained model to predict task durations
-- Add filtering/customizable based on subjects
-- Tweak predictive algorithm based on personal experience/conduct a survey
+- Research other event planners for relevant info (2 pts)
+- Install brain.js and npm/yarn if necessary (1 pt)
+- Research HtML structure/functions for making a calendar, task lists, etc. (2 pts)
+- Design the homepage, sketch UI (1 pt)
+- Add CSS to the UI (5 pts)
+- Make/design a planner.js file for customizable planning (3 pts)
+- Create Brain.js neural network model (13 pts)
+- Research predictive functions of Brain.js, consider limitations (2 pts)
+- Code an input form where tasks can be added/removed (5 pts)
+- Set up data collection/train neural network based on data (13 pts)
+- Use trained model to predict task durations (8 pts)
+- Add filtering/customizable based on subjects (5 pts)
+- Tweak predictive algorithm based on personal experience/conduct a survey (5 pts)
