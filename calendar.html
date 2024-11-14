@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlanMyWeek</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+            background-color: #4CAF50;
+            color: white;
+            margin: 0;
+        }
+        header ul li {
+            padding: 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        header ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .calendar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background-color: #ccc;
+            margin-top: 20px;
+            width: 80%;
+            max-width: 1000px;
+        }
+        .calendar div {
+            padding: 10px;
+            background-color: #fff;
+            min-height: 80px;
+            text-align: center;
+            position: relative;
+        }
+        .calendar .day-header {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        .calendar .task {
+            margin: 5px 0;
+            padding: 5px;
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: move;
+        }
+        .task.high-priority { background-color: #ff4d4d; }
+        .task.medium-priority { background-color: #ffcc00; }
+        .task.low-priority { background-color: #85e085; }
+        .task-category {
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .task-status {
+            font-size: 0.8em;
+            color: #888;
+        }
+        .task-controls {
+            margin-top: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        .prev, .next {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .add-task-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+
+<header>
+    <ul>
+        <li>Calendar View</li>
+        <li><a href="timeline.html">Timeline</a></li>
+        <li><a href="board.html">Board View</a></li>
+        <li><a href="list.html">List View</a></li>
+    </ul>
+</header>
+
+
+<div class="calendar-container">
+    <h1>PlanMyWeek</h1>
+    <div class="month-nav">
+        <span class="prev">&#10094;</span>
+        <span>October 2024</span>
+        <span class="next">&#10095;</span>
+    </div>
+    <div class="calendar">
+        <div class="day-header">Sunday</div>
+        <div class="day-header">Monday</div>
+        <div class="day-header">Tuesday</div>
+        <div class="day-header">Wednesday</div>
+        <div class="day-header">Thursday</div>
+        <div class="day-header">Friday</div>
+        <div class="day-header">Saturday</div>
+
+
+        <!-- Calendar Days -->
+        <!-- Add task containers with example tasks -->
+        <div>
+            <a href="1.html">1</a>
+            <div class="task high-priority" draggable="true">Math Homework <span class="task-status">[To Do]</span></div>
+        </div>
+        <div>
+            <a href="2.html">2</a>
+        </div>
+        <!-- Add more days as needed -->
+
+
+    </div>
+
+
+    <button class="add-task-btn" onclick="window.location.href='task.html'">
+        <img src="plus.png" alt="+" width="20" height="20"> Add Task
+    </button>
+</div>
+
+
+<script>
+    // Example drag and drop functionality
+    document.addEventListener("DOMContentLoaded", () => {
+        const tasks = document.querySelectorAll(".task");
+        const days = document.querySelectorAll(".calendar div:not(.day-header)");
+
+
+        tasks.forEach(task => {
+            task.addEventListener("dragstart", e => {
+                e.dataTransfer.setData("text/plain", e.target.innerHTML);
+                e.dataTransfer.effectAllowed = "move";
+            });
+        });
+
+
+        days.forEach(day => {
+            day.addEventListener("dragover", e => e.preventDefault());
+
+
+            day.addEventListener("drop", e => {
+                e.preventDefault();
+                const data = e.dataTransfer.getData("text/plain");
+                const newTask = document.createElement("div");
+                newTask.innerHTML = data;
+                newTask.classList.add("task");
+                day.appendChild(newTask);
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>
