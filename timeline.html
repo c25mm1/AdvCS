@@ -1,78 +1,104 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Timeline</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+            background-color: #4CAF50;
+            color: white;
+            margin: 0;
+        }
+        header ul li {
+            padding: 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        header ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .timeline-container {
+            display: flex;
+            overflow-x: auto;
+            padding: 20px;
+            gap: 10px;
+        }
+        .timeline-day {
+            flex: 0 0 150px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            min-height: 300px;
+        }
+        .timeline-day h3 {
+            margin: 0;
+            padding: 10px 0;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+        .task {
+            margin: 5px 0;
+            padding: 5px;
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: move;
+        }
+        .task.high-priority { background-color: #ff4d4d; }
+        .task.medium-priority { background-color: #ffcc00; }
+        .task.low-priority { background-color: #85e085; }
+    </style>
 </head>
 <body>
-  <header><ul>
-    <li>Timeline</li>
-    <li><a href="calendar.html">Calendar View</a></li>
-    <li><a href="board.html">Board View</a></li>
-    <li><a href="list.html">List View</a></li>
-    </ul></header>
-<style>
-    .rectangle{
-    height: 1000px;
-    width: 100px;
+<header>
+    <ul>
+        <li><a href="calendar.html">Calendar View</a></li>
+        <li>Timeline</li>
+        <li><a href="board.html">Board View</a></li>
+        <li><a href="list.html">List View</a></li>
+    </ul>
+</header>
+<div class="timeline-container" id="timeline">
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const timelineContainer = document.getElementById("timeline");
+
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [
+        { name: "Science Project", dueDate: "2024-10-03", priority: "medium", status: "In Progress" },
+    ];
+    const startDate = new Date("2024-10-01");
+    for (let i = 0; i < 7; i++) {
+        const currentDate = new Date(startDate);
+        currentDate.setDate(startDate.getDate() + i);
+        const dayDiv = document.createElement("div");
+        dayDiv.className = "timeline-day";
+        const formattedDate = currentDate.toISOString().split("T")[0];
+        dayDiv.innerHTML = `<h3>${currentDate.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}</h3>`;
+        tasks.filter(task => task.dueDate === formattedDate).forEach(task => {
+            const taskDiv = document.createElement("div");
+            taskDiv.className = `task ${task.priority}-priority`;
+            taskDiv.innerHTML = `${task.name} <br><span class="task-status">[${task.status}]</span>`;
+            dayDiv.appendChild(taskDiv);
+        });
+        timelineContainer.appendChild(dayDiv);
     }
-    .ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    }
-    .li {
-    display: inline;
-    }
-    .table {
-    border-collapse: separate;
-    background: lightblue no-repeat fixed center;
-    color: yellow;
-    }
-    .button {
-    border-collapse: separate;
-    background: red no-repeat fixed center;
-    color: purple;
-    }
-  </style>
-<div class="rectangle">
-<table>
-       <caption>
-        </class="prev">&#10094;
-        October 2024
-        </class="next">&#10095;
-        </caption>
-        <tr>
-          <th scope="col">Sunday</th>
-            <td><center><a href="7.html">7</a></center>Task 1</td>
-        </tr>
-        <tr>
-          <th scope="col">Monday</th>
-            <td><center><a href="1.html">1</a></center>Task 2</td>
-            <rectangle></rectangle>
-        </tr>
-        <tr>
-          <th scope="col">Tuesday</th>
-            <td><center><a href="2.html">2</a></center>Task 3</td>
-            <rectangle></rectangle>
-        </tr>
-        <tr>
-          <th scope="col">Wednesday</th>
-            <td><center><a href="3.html">3</a></center>Task 4</td>
-            <rectangle></rectangle>
-        </tr>
-        <tr>
-          <th scope="col">Thursday</th>
-            <td><center><a href="4.html">4</a></center>Task 5</td>
-            <rectangle></rectangle>
-        </tr>
-        <tr>
-          <th scope="col">Friday</th>
-            <td><center><a href="5.html">5</a></center>Task 6</td>
-            <rectangle></rectangle>
-        </tr>
-          <th scope="col">Saturday</th>
-            <td><center><a href="6.html">6</a></center>Task 7</td>
-            <rectangle></rectangle>
-          </div>
-      <button onclick="task.html()"><img src="plus.png" alt="+" width="20" height="20"><a href="task.html">Add Task</a></button>
-    </body>
-    </html>
+});
+</script>
+</body>
+</html>
