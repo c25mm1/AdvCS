@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        header ul {
+            list-style: none;
+            display: flex;
+            gap: 10px;
+            padding: 0;
+        }
+
+        header li {
+            display: inline;
+        }
+
+        .calendar-container {
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .month-nav span {
+            cursor: pointer;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .day-header {
+            font-weight: bold;
+        }
+
+        .day {
+            padding: 10px;
+            border: 1px solid #ccc;
+            min-height: 100px;
+        }
+
+        .task {
+            background: lightblue;
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: move;
+        }
+
+        .add-task-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <ul>
+            <li>Timeline</li>
+            <li><a href="calendar.html">Calendar View</a></li>
+            <li><a href="board.html">Board View</a></li>
+            <li><a href="list.html">List View</a></li>
+        </ul>
+    </header>
+
+    <div class="calendar-container">
+        <h1>PlanMyWeek</h1>
+        <div class="month-nav">
+            <span class="prev">&#10094;</span>
+            <span>October 2024</span>
+            <span class="next">&#10095;</span>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sunday</div>
+            <div class="day-header">Monday</div>
+            <div class="day-header">Tuesday</div>
+            <div class="day-header">Wednesday</div>
+            <div class="day-header">Thursday</div>
+            <div class="day-header">Friday</div>
+            <div class="day-header">Saturday</div>
+
+            <div class="day" data-day="1">
+                <a href="1.html">1</a>
+                <div class="task" draggable="true">Math Homework [To Do]</div>
+            </div>
+            <div class="day" data-day="2"><a href="2.html">2</a></div>
+            <div class="day" data-day="3"><a href="3.html">3</a></div>
+        </div>
+        <button class="add-task-btn" onclick="window.location.href='task.html'">Add Task</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const days = document.querySelectorAll(".day");
+            let draggedTask = null;
+
+            document.querySelectorAll(".task").forEach(task => {
+                task.addEventListener("dragstart", () => {
+                    draggedTask = task;
+                });
+
+                task.addEventListener("dragend", () => {
+                    draggedTask = null;
+                });
+            });
+
+            days.forEach(day => {
+                day.addEventListener("dragover", e => e.preventDefault());
+
+                day.addEventListener("drop", () => {
+                    if (draggedTask) {
+                        day.appendChild(draggedTask);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
