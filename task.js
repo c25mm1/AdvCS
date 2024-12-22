@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import Cookies from 'js-cookie';
-
-
 function TaskForm({ onSave }) {
     const [taskName, setTaskName] = useState('');
     const [dueDate, setDueDate] = useState('');
@@ -13,8 +11,6 @@ function TaskForm({ onSave }) {
     const [details, setDetails] = useState('');
     const [subtasks, setSubtasks] = useState([]);
     const [completed, setCompleted] = useState(false);
-
-
     const handleSave = () => {
         const task = {
             id: new Date().getTime(),
@@ -31,8 +27,6 @@ function TaskForm({ onSave }) {
         onSave(task);
         resetForm();
     };
-
-
     const resetForm = () => {
         setTaskName('');
         setDueDate('');
@@ -44,8 +38,6 @@ function TaskForm({ onSave }) {
         setSubtasks([]);
         setCompleted(false);
     };
-
-
     return (
         <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
             <label>Task Name: <input type="text" value={taskName} onChange={(e) => setTaskName(e.target.value)} /></label>
@@ -81,8 +73,6 @@ function TaskForm({ onSave }) {
         </form>
     );
 }
-
-
 function TaskList({ tasks, onDelete }) {
     return (
         <div>
@@ -102,35 +92,23 @@ function TaskList({ tasks, onDelete }) {
         </div>
     );
 }
-
-
 function TaskManager() {
     const [tasks, setTasks] = useState([]);
-
-
     useEffect(() => {
         const savedTasks = Cookies.get('tasks');
         if (savedTasks) {
             setTasks(JSON.parse(savedTasks));
         }
     }, []);
-
-
     useEffect(() => {
         Cookies.set('tasks', JSON.stringify(tasks), { expires: 7 });
     }, [tasks]);
-
-
     const addTask = (newTask) => {
         setTasks((prevTasks) => [...prevTasks, newTask]);
     };
-
-
     const deleteTask = (taskId) => {
         setTasks((prevTasks) => prevTasks.filter(task => task.id !== taskId));
     };
-
-
     return (
         <div>
             <h1>PlanMyWeek</h1>
