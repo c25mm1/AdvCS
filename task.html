@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Task - PlanMyWeek</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="date"], textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        .dropdown {
+            margin: 5px 0;
+            display: inline-block;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .task-preview {
+            background-color: #ecf0f1;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            border: 1px dashed #bdc3c7;
+        }
+        .checkbox {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Create New Task</h1>
+    <form id="taskForm">
+        <label for="taskName">Task Name:</label>
+        <input type="text" id="taskName" placeholder="Enter task name">
+        <label for="dueDate">Due Date:</label>
+        <input type="date" id="dueDate">
+        <label for="priority">Priority:</label>
+        <select id="priority">
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+        </select>
+        <label for="taskClass">Class:</label>
+        <input type="text" id="taskClass" placeholder="e.g., Math, Personal">
+        <label for="taskType">Type:</label>
+        <select id="taskType">
+            <option value="home">Home</option>
+            <option value="school">School</option>
+            <option value="work">Work</option>
+            <option value="personal">Personal</option>
+            <option value="other">Other</option>
+        </select>
+        <label for="status">Status:</label>
+        <select id="status">
+            <option value="to-do">To Do</option>
+            <option value="in-progress">In Progress</option>
+            <option value="almost-done">Almost Done</option>
+            <option value="done">Done</option>
+            <option value="off-track">Off Track</option>
+        </select>
+        <label for="details">Additional Information:</label>
+        <textarea id="details" rows="4" placeholder="Enter any additional information"></textarea>
+        <label>Subtasks:</label>
+        <input type="text" placeholder="Add subtask 1" class="subtask">
+        <input type="text" placeholder="Add subtask 2" class="subtask">
+        <input type="text" placeholder="Add subtask 3" class="subtask">
+        <button type="button" onclick="addSubtask()">+ Add More</button>
+        <label>
+            <input type="checkbox" class="checkbox" id="completed"> Mark as Completed
+        </label>
+        <button type="submit">Save Task</button>
+    </form>
+    <div class="task-preview" id="taskPreview">
+        <h2>Task Preview</h2>
+        <p id="previewTaskName">Task Name: [Sample Task]</p>
+        <p id="previewDueDate">Due Date: -</p>
+        <p id="previewPriority">Priority: -</p>
+        <p id="previewClass">Class: -</p>
+        <p id="previewType">Type: -</p>
+        <p id="previewStatus">Status: -</p>
+        <p id="previewDetails">Details: -</p>
+        <ul id="previewSubtasks">Subtasks: None</ul>
+        <p id="previewCompleted">Completed: No</p>
+        <p id="previewTags">Tags: -</p>
+    </div>
+    <script>
+        document.getElementById("taskForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const task = {
+                name: document.getElementById("taskName").value,
+                dueDate: document.getElementById("dueDate").value,
+                priority: document.getElementById("priority").value,
+                class: document.getElementById("taskClass").value,
+                type: document.getElementById("taskType").value,
+                status: document.getElementById("status").value,
+                details: document.getElementById("details").value,
+                subtasks: Array.from(document.getElementsByClassName("subtask")).map(input => input.value).filter(subtask => subtask),
+                completed: document.getElementById("completed").checked,
+            };
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            tasks.push(task);
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            window.location.href = "calendar.html";
+        });
+    </script>
+</body>
+</html>
