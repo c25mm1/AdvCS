@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board View</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+            background-color: #4CAF50;
+            color: white;
+            margin: 0;
+        }
+        header ul li {
+            padding: 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        header ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .board-container {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        .board-column {
+            flex: 0 0 300px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            min-height: 400px;
+            text-align: center;
+        }
+        .board-column h3 {
+            margin: 0;
+            padding: 10px 0;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+        .task {
+            margin: 10px 0;
+            padding: 10px;
+            color: white;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: move;
+        }
+        .task.high-priority { background-color: #ff4d4d; }
+        .task.medium-priority { background-color: #ffcc00; }
+        .task.low-priority { background-color: #85e085; }
+    </style>
+</head>
+<body>
+<header>
+    <ul>
+        <li><a href="calendar.html">Calendar View</a></li>
+        <li><a href="timeline.html">Timeline View</a></li>
+        <li>Board View</li>
+        <li><a href="list.html">List View</a></li>
+    </ul>
+</header>
+
+<div class="board-container" id="board">
+    <div class="board-column" id="todo">
+        <h3>To Do</h3>
+    </div>
+    <div class="board-column" id="in-progress">
+        <h3>In Progress</h3>
+    </div>
+    <div class="board-column" id="done">
+        <h3>Done</h3>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [
+        { name: "History Essay", dueDate: "2024-10-06", priority: "low", status: "Done" }
+    ];
+
+    tasks.forEach(task => {
+        const column = document.getElementById(task.status.toLowerCase().replace(" ", "-"));
+        if (column) {
+            const taskDiv = document.createElement("div");
+            taskDiv.className = `task ${task.priority}-priority`;
+            taskDiv.draggable = true;
+            taskDiv.innerHTML = `${task.name} <br><span class="task-status">[${task.status}]</span>`;
+            taskDiv.addEventListener("dragstart", e => {
+                e.dataTransfer.setData("text/plain", JSON.stringify(task));
+            });
+            column.appendChild(taskDiv);
+        }
+    });
+
+    const columns = document.querySelectorAll(".board-column");
+
+    columns.forEach(column => {
+        column.addEventListener("dragover", e => e.preventDefault());
+
+        column.addEventListener("drop", e => {
+            e.preventDefault();
+            const data = e.dataTransfer.getData("text/plain");
+            const task = JSON.parse(data);
+            task.status = column.id.replace("-", " ");
+            
+            const updatedTasks = tasks.map(t => (t.name === task.name ? task : t));
+            localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+            
+    
+            location.reload();
+        });
+    });
+});
+</script>
+</body>
+</html>
