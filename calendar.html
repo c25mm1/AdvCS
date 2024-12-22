@@ -93,6 +93,25 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        #delete-zone {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: #ff4d4d;
+    color: white;
+    text-align: center;
+    line-height: 100px;
+    font-weight: bold;
+    display: none; 
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+#delete-zone.active {
+    display: block;
+    opacity: 0.9;
+}
     </style>
 </head>
 <body>
@@ -124,9 +143,6 @@
         <div class="day-header">Friday</div>
         <div class="day-header">Saturday</div>
 
-
-        <!-- Calendar Days -->
-        <!-- Add task containers with example tasks -->
         <div>
             <a href="1.html">1</a>
             <div class="task high-priority" draggable="true">Math Homework <span class="task-status">[To Do]</span></div>
@@ -134,7 +150,91 @@
         <div>
             <a href="2.html">2</a>
         </div>
-        <!-- Add more days as needed -->
+        <div>
+            <a href="3.html">3</a>
+        </div>
+        <div>
+            <a href="4.html">4</a>
+        </div>
+        <div>
+            <a href="5.html">5</a>
+        </div>
+        <div>
+            <a href="6.html">6</a>
+        </div>
+        <div>
+            <a href="7.html">7</a>
+        </div>
+        <div>
+            <a href="8.html">8</a>
+        </div>
+        <div>
+            <a href="9.html">9</a>
+        </div>
+        <div>
+            <a href="10.html">10</a>
+        </div>
+        <div>
+            <a href="11.html">11</a>
+        </div>
+        <div>
+            <a href="12.html">12</a>
+        </div>
+        <div>
+            <a href="13.html">13</a>
+        </div>
+        <div>
+            <a href="14.html">14</a>
+        </div>
+        <div>
+            <a href="15.html">15</a>
+        </div>
+        <div>
+            <a href="16.html">16</a>
+        </div>
+        <div>
+            <a href="17.html">17</a>
+        </div>
+        <div>
+            <a href="18.html">18</a>
+        </div>
+        <div>
+            <a href="19.html">19</a>
+        </div>
+        <div>
+            <a href="20.html">20</a>
+        </div>
+        <div>
+            <a href="21.html">21</a>
+        </div>
+        <div>
+            <a href="22.html">22</a>
+        </div>
+        <div>
+            <a href="23.html">23</a>
+        </div>
+        <div>
+            <a href="24.html">24</a>
+        </div>
+        <div>
+            <a href="25.html">25</a>
+        </div>
+        <div>
+            <a href="26.html">26</a>
+        </div>
+        <div>
+            <a href="27.html">27</a>
+        </div>
+        <div>
+            <a href="28.html">28</a>
+        </div>
+        <div>
+            <a href="29.html">29</a>
+        </div>
+        <div>
+            <a href="30.html">30</a>
+        </div>
+
 
 
     </div>
@@ -144,38 +244,83 @@
         <img src="plus.png" alt="+" width="20" height="20"> Add Task
     </button>
 </div>
+<div id="delete-zone">Drop here to delete</div>
+
 
 
 <script>
-    // Example drag and drop functionality
-    document.addEventListener("DOMContentLoaded", () => {
-        const tasks = document.querySelectorAll(".task");
-        const days = document.querySelectorAll(".calendar div:not(.day-header)");
+  document.addEventListener("DOMContentLoaded", () => {
+    const calendarDays = document.querySelectorAll(".calendar div:not(.day-header)");
+    const deleteZone = document.getElementById("delete-zone");
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    let draggedTask = null;
 
+    // Load tasks into the calendar
+    tasks.forEach(task => {
+        const dayElement = Array.from(calendarDays).find(day => 
+            parseInt(day.querySelector("a")?.textContent || -1) === new Date(task.dueDate).getDate()
+        );
 
-        tasks.forEach(task => {
-            task.addEventListener("dragstart", e => {
-                e.dataTransfer.setData("text/plain", e.target.innerHTML);
-                e.dataTransfer.effectAllowed = "move";
-            });
-        });
-
-
-        days.forEach(day => {
-            day.addEventListener("dragover", e => e.preventDefault());
-
-
-            day.addEventListener("drop", e => {
-                e.preventDefault();
-                const data = e.dataTransfer.getData("text/plain");
-                const newTask = document.createElement("div");
-                newTask.innerHTML = data;
-                newTask.classList.add("task");
-                day.appendChild(newTask);
-            });
-        });
+        if (dayElement) dayElement.appendChild(createTaskElement(task));
     });
+
+    calendarDays.forEach(day => {
+        day.addEventListener("dragover", e => e.preventDefault());
+        day.addEventListener("drop", () => moveTaskToDay(day));
+    });
+
+    deleteZone.addEventListener("dragover", e => e.preventDefault());
+    deleteZone.addEventListener("drop", deleteTask);
+
+    function createTaskElement(task) {
+        const taskDiv = document.createElement("div");
+        taskDiv.className = `task ${task.priority}-priority`;
+        taskDiv.draggable = true;
+        taskDiv.dataset.task = JSON.stringify(task);
+        taskDiv.innerHTML = `${task.name} <br><small>Due: ${task.dueDate}</small>`;
+        
+        taskDiv.addEventListener("dragstart", () => {
+            draggedTask = taskDiv;
+            deleteZone.classList.add("active");
+        });
+        taskDiv.addEventListener("dragend", () => {
+            draggedTask = null;
+            deleteZone.classList.remove("active");
+        });
+
+        return taskDiv;
+    }
+
+    function moveTaskToDay(day) {
+        if (!draggedTask) return;
+
+        const taskData = JSON.parse(draggedTask.dataset.task);
+        const newDate = day.querySelector("a")?.textContent || "1";
+        taskData.dueDate = new Date(new Date().setDate(newDate)).toISOString().split("T")[0];
+
+        day.appendChild(draggedTask);
+        updateStorage(taskData);
+    }
+
+    function deleteTask() {
+        if (!draggedTask) return;
+
+        const taskData = JSON.parse(draggedTask.dataset.task);
+        draggedTask.remove();
+        updateStorage(taskData, true);
+        alert("Task deleted!");
+    }
+
+    function updateStorage(task, isDelete = false) {
+        const updatedTasks = tasks.filter(t => t.name !== task.name || t.dueDate !== task.dueDate);
+        if (!isDelete) updatedTasks.push(task);
+        localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    }
+});
+
 </script>
+
+
 
 
 </body>
