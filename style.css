@@ -3,60 +3,41 @@ ul {
   margin: 0;
   padding: 0;
 }
-
-
 li {
   display: inline;
 }
-
-
-/* Navigation Styles */
 header ul {
   background-color: #2c3e50;
   padding: 10px;
   display: flex;
   justify-content: space-around;
 }
-
-
 header ul li {
   color: white;
   font-weight: bold;
   font-size: 16px;
 }
-
-
 header ul li a {
   color: white;
   text-decoration: none;
   padding: 5px 10px;
-  transition: background-color 0.3s;
+  transition: background-color 1.5s;
 }
-
-
 header ul li a:hover {
   background-color: #34495e;
   border-radius: 5px;
 }
-
-
-/* Calendar Container */
 .calendar-container {
   padding: 20px;
   text-align: center;
   background-color: #ecf0f1;
   min-height: 100vh;
 }
-
-
-/* Month Navigation */
 .month-nav {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
 }
-
-
 .month-nav .prev,
 .month-nav .next {
   cursor: pointer;
@@ -64,15 +45,10 @@ header ul li a:hover {
   padding: 0 10px;
   transition: color 0.3s;
 }
-
-
 .month-nav .prev:hover,
 .month-nav .next:hover {
   color: #3498db;
 }
-
-
-/* Calendar Table */
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -82,8 +58,6 @@ header ul li a:hover {
   width: 90%;
   max-width: 1000px;
 }
-
-
 .calendar .day-header {
   background-color: #2980b9;
   color: white;
@@ -91,8 +65,6 @@ header ul li a:hover {
   padding: 10px;
   font-size: 16px;
 }
-
-
 .calendar div {
   background-color: white;
   padding: 10px;
@@ -102,14 +74,9 @@ header ul li a:hover {
   border: 1px solid #ddd;
   transition: background-color 0.3s;
 }
-
-
 .calendar div:hover {
   background-color: #f9f9f9;
 }
-
-
-/* Task Styles */
 .task {
   margin: 5px 0;
   padding: 5px 10px;
@@ -119,43 +86,28 @@ header ul li a:hover {
   cursor: grab;
   transition: transform 0.2s;
 }
-
-
 .task:active {
   cursor: grabbing;
   transform: scale(1.05);
 }
-
-
 .task.high-priority {
   background-color: #e74c3c;
 }
-
-
 .task.medium-priority {
   background-color: #f39c12;
 }
-
-
 .task.low-priority {
   background-color: #2ecc71;
 }
-
-
 .task .task-category {
   font-size: 0.85em;
   font-weight: bold;
   color: #f1c40f;
 }
-
-
 .task .task-status {
   font-size: 0.8em;
   color: #7f8c8d;
 }
-
-
-/* Add Task Button */
 .add-task-btn {
   background-color: #27ae60;
   color: white;
@@ -167,32 +119,20 @@ header ul li a:hover {
   transition: background-color 0.3s;
   margin-top: 20px;
 }
-
-
 .add-task-btn:hover {
   background-color: #2ecc71;
 }
-
-
 .add-task-btn img {
   vertical-align: middle;
   margin-right: 5px;
 }
-
-
-/* Drag-and-Drop Effects */
 .calendar div.drag-over {
   background-color: #e1f5fe;
   border: 2px dashed #3498db;
 }
-
-
 .calendar .task.dragging {
   opacity: 0.5;
 }
-
-
-/* Accessibility and Transitions */
 button, .task, .add-task-btn, header ul li a {
   transition: background-color 0.3s, color 0.3s;
 }
