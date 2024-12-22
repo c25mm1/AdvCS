@@ -115,8 +115,6 @@
     </style>
 </head>
 <body>
-
-
 <header>
     <ul>
         <li>Calendar View</li>
@@ -125,8 +123,6 @@
         <li><a href="list.html">List View</a></li>
     </ul>
 </header>
-
-
 <div class="calendar-container">
     <h1>PlanMyWeek</h1>
     <div class="month-nav">
@@ -234,28 +230,18 @@
         <div>
             <a href="30.html">30</a>
         </div>
-
-
-
     </div>
-
-
     <button class="add-task-btn" onclick="window.location.href='task.html'">
         <img src="plus.png" alt="+" width="20" height="20"> Add Task
     </button>
 </div>
 <div id="delete-zone">Drop here to delete</div>
-
-
-
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const calendarDays = document.querySelectorAll(".calendar div:not(.day-header)");
     const deleteZone = document.getElementById("delete-zone");
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     let draggedTask = null;
-
-    // Load tasks into the calendar
     tasks.forEach(task => {
         const dayElement = Array.from(calendarDays).find(day => 
             parseInt(day.querySelector("a")?.textContent || -1) === new Date(task.dueDate).getDate()
@@ -263,22 +249,18 @@
 
         if (dayElement) dayElement.appendChild(createTaskElement(task));
     });
-
     calendarDays.forEach(day => {
         day.addEventListener("dragover", e => e.preventDefault());
         day.addEventListener("drop", () => moveTaskToDay(day));
     });
-
     deleteZone.addEventListener("dragover", e => e.preventDefault());
     deleteZone.addEventListener("drop", deleteTask);
-
     function createTaskElement(task) {
         const taskDiv = document.createElement("div");
         taskDiv.className = `task ${task.priority}-priority`;
         taskDiv.draggable = true;
         taskDiv.dataset.task = JSON.stringify(task);
         taskDiv.innerHTML = `${task.name} <br><small>Due: ${task.dueDate}</small>`;
-        
         taskDiv.addEventListener("dragstart", () => {
             draggedTask = taskDiv;
             deleteZone.classList.add("active");
@@ -287,41 +269,29 @@
             draggedTask = null;
             deleteZone.classList.remove("active");
         });
-
         return taskDiv;
     }
-
     function moveTaskToDay(day) {
         if (!draggedTask) return;
-
         const taskData = JSON.parse(draggedTask.dataset.task);
         const newDate = day.querySelector("a")?.textContent || "1";
         taskData.dueDate = new Date(new Date().setDate(newDate)).toISOString().split("T")[0];
-
         day.appendChild(draggedTask);
         updateStorage(taskData);
     }
-
     function deleteTask() {
         if (!draggedTask) return;
-
         const taskData = JSON.parse(draggedTask.dataset.task);
         draggedTask.remove();
         updateStorage(taskData, true);
         alert("Task deleted!");
     }
-
     function updateStorage(task, isDelete = false) {
         const updatedTasks = tasks.filter(t => t.name !== task.name || t.dueDate !== task.dueDate);
         if (!isDelete) updatedTasks.push(task);
         localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     }
 });
-
 </script>
-
-
-
-
 </body>
 </html>
